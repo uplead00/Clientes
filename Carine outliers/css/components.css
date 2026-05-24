@@ -1,0 +1,360 @@
+/* =============================================================================
+   COMPONENTS.CSS — Componentes reutilizáveis: botões, títulos de seção,
+                    cards de solução, depoimentos, FAQ e formulário
+   RESPONSIVIDADE: Botões com área de toque adequada, form inputs sem zoom iOS,
+                   FAQ acessível, cards touch-friendly
+   ============================================================================= */
+
+/* ---------- Botões ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .55rem;
+  /* [AJUSTE] Padding vertical garante área de toque mínima de 44px */
+  padding: .875rem 2rem;
+  border-radius: 50px;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: .95rem;
+  letter-spacing: .04em;
+  transition: var(--transition);
+  /* [NOVO] Previne quebra de linha dentro do botão */
+  white-space: nowrap;
+  /* [NOVO] Garante área de toque mínima */
+  min-height: var(--min-touch-target);
+}
+
+.btn-gold {
+  background: var(--gold);
+  color: var(--black);
+  box-shadow: var(--shadow-gold);
+}
+.btn-gold:hover {
+  background: var(--gold-light);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 48px rgba(201,168,76,.35);
+}
+/* [NOVO] Remove hover transform em dispositivos touch (evita estado "stuck") */
+@media (hover: none) {
+  .btn-gold:hover  { transform: none; }
+  .btn-white:hover { transform: none; }
+}
+
+.btn-outline {
+  border: 1.5px solid var(--gold);
+  color: var(--gold);
+  background: transparent;
+}
+.btn-outline:hover {
+  background: var(--gold);
+  color: var(--black);
+}
+
+.btn-white { background: var(--white); color: var(--black); }
+.btn-white:hover { background: var(--offwhite); transform: translateY(-2px); }
+
+/* ---------- Rótulo e título de seção ---------- */
+.section-label {
+  display: inline-block;
+  font-size: .75rem;
+  font-weight: 600;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1rem;
+}
+.section-title {
+  font-family: var(--font-serif);
+  font-size: clamp(1.75rem, 4vw, 3rem);
+  line-height: 1.2;
+  color: var(--black);
+  margin-bottom: 1.25rem;
+}
+.section-title.light { color: var(--white); }
+.section-sub {
+  font-size: 1.05rem;
+  color: var(--grey);
+  max-width: 600px;
+  line-height: 1.8;
+}
+
+/* ---------- Cards de Solução ---------- */
+.solution-card {
+  background: var(--offwhite);
+  border-radius: var(--radius-lg);
+  padding: 2rem 1.75rem;
+  border: 1px solid transparent;
+  transition: var(--transition);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  position: relative;
+  overflow: hidden;
+}
+/* Barra dourada animada na base do card */
+.solution-card::before {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transition: transform var(--transition);
+}
+.solution-card:hover {
+  border-color: rgba(201,168,76,.25);
+  transform: translateY(-6px);
+  box-shadow: var(--shadow);
+}
+.solution-card:hover::before { transform: scaleX(1); }
+
+/* [NOVO] Em dispositivos touch, mostra barra dourada sempre (sem hover) */
+@media (hover: none) {
+  .solution-card { border-color: rgba(201,168,76,.15); }
+  .solution-card::before { transform: scaleX(.3); opacity: .5; }
+  .solution-card:hover { transform: none; }
+}
+
+.solution-icon {
+  width: 48px; height: 48px;
+  border: 1.5px solid rgba(201,168,76,.35);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gold);
+  font-size: 1.4rem;
+}
+.solution-title {
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  color: var(--black);
+  font-weight: 600;
+}
+.solution-desc { font-size: .875rem; color: var(--grey); line-height: 1.7; flex: 1; }
+.solution-cta {
+  font-size: .82rem;
+  font-weight: 600;
+  color: var(--gold);
+  letter-spacing: .05em;
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  transition: gap var(--transition);
+  /* [NOVO] Área de toque mínima */
+  min-height: var(--min-touch-target);
+}
+.solution-cta:hover { gap: .7rem; }
+
+/* ---------- Depoimentos ---------- */
+.testimonial-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(201,168,76,.1);
+  position: relative;
+  transition: var(--transition);
+}
+.testimonial-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,.12); }
+
+/* Aspas decorativas */
+.testimonial-card::before {
+  content: '\201C';
+  position: absolute;
+  top: 1.2rem; right: 1.75rem;
+  font-family: var(--font-serif);
+  font-size: 5rem;
+  color: rgba(201,168,76,.12);
+  line-height: 1;
+}
+.testimonial-text   { font-size: .95rem; color: var(--grey); line-height: 1.8; margin-bottom: 1.5rem; font-style: italic; }
+.testimonial-author { display: flex; align-items: center; gap: .85rem; }
+.testimonial-avatar {
+  width: 46px; height: 46px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--emerald), var(--emerald-dk));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gold);
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  font-style: italic;
+  flex-shrink: 0;
+}
+.testimonial-name { font-weight: 600; font-size: .9rem; color: var(--black); }
+.testimonial-role { font-size: .78rem; color: var(--grey); }
+
+/* ---------- Badges de prêmio ---------- */
+.award-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: .6rem;
+  background: var(--black);
+  color: var(--gold);
+  padding: .6rem 1.25rem;
+  border-radius: 50px;
+  font-size: .8rem;
+  font-weight: 600;
+  letter-spacing: .06em;
+  border: 1px solid rgba(201,168,76,.25);
+  transition: var(--transition);
+  /* [NOVO] Área de toque mínima */
+  min-height: var(--min-touch-target);
+}
+.award-badge:hover { border-color: var(--gold); box-shadow: var(--shadow-gold); }
+
+/* ---------- Cards de perfil (Para quem) ---------- */
+.profile-card {
+  border: 1px solid var(--grey-light);
+  border-radius: var(--radius-lg);
+  /* [AJUSTE] Padding menor em base para caber em 2 colunas no mobile */
+  padding: 1.75rem 1.5rem;
+  text-align: center;
+  transition: var(--transition);
+  cursor: default;
+}
+.profile-card:hover {
+  border-color: var(--gold);
+  background: rgba(201,168,76,.04);
+  transform: translateY(-4px);
+}
+.profile-icon {
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--emerald), var(--emerald-dk));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.25rem;
+  color: var(--gold);
+  font-size: 1.5rem;
+}
+.profile-title { font-family: var(--font-serif); font-size: 1.05rem; color: var(--black); margin-bottom: .5rem; }
+.profile-desc  { font-size: .85rem; color: var(--grey); line-height: 1.7; }
+
+/* ---------- FAQ ---------- */
+.faq-list { max-width: 780px; margin: 0 auto; }
+.faq-item { border-bottom: 1px solid var(--grey-light); overflow: hidden; }
+
+.faq-question {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 0;
+  text-align: left;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--black);
+  gap: 1rem;
+  transition: color var(--transition);
+  /* [NOVO] Área de toque confortável */
+  min-height: var(--min-touch-target);
+}
+.faq-question:hover { color: var(--gold-dark); }
+
+.faq-icon {
+  flex-shrink: 0;
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  border: 1.5px solid var(--grey-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--grey);
+  transition: var(--transition);
+}
+/* Ícone vira X quando aberto */
+.faq-item.open .faq-icon {
+  border-color: var(--gold);
+  color: var(--gold);
+  background: rgba(201,168,76,.08);
+  transform: rotate(45deg);
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .45s cubic-bezier(.4,0,.2,1), padding .3s;
+}
+.faq-item.open .faq-answer { max-height: 400px; padding-bottom: 1.5rem; }
+.faq-answer p { font-size: .95rem; color: var(--grey); line-height: 1.85; }
+
+/* ---------- Formulário de contato ---------- */
+.contact-form {
+  max-width: 480px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  position: relative;
+  /* [NOVO] Largura total em containers estreitos */
+  width: 100%;
+}
+.form-group { display: flex; flex-direction: column; gap: .4rem; text-align: left; }
+.form-group label {
+  font-size: .78rem;
+  color: rgba(255,255,255,.5);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.form-group input,
+.form-group select,
+.form-group textarea {
+  background: rgba(255,255,255,.07);
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 8px;
+  /* [AJUSTE] Padding vertical garante área de toque ≥ 44px */
+  padding: .9rem 1rem;
+  color: var(--white);
+  font-family: var(--font-sans);
+  /* [CRÍTICO] font-size mínimo de 16px — evita zoom automático no iOS */
+  font-size: 16px;
+  transition: border-color var(--transition);
+  width: 100%;
+  /* [NOVO] min-height garante área de toque em mobile */
+  min-height: var(--min-touch-target);
+}
+.form-group input::placeholder,
+.form-group textarea::placeholder { color: rgba(255,255,255,.3); }
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--gold);
+  background: rgba(255,255,255,.1);
+}
+.form-group select { appearance: none; cursor: pointer; }
+.form-group select option { background: var(--black); color: var(--white); }
+/* [AJUSTE] Textarea um pouco maior para conforto de digitação mobile */
+.form-group textarea { resize: none; height: 110px; min-height: auto; }
+
+.form-or {
+  color: rgba(255,255,255,.4);
+  font-size: .85rem;
+  margin: .5rem 0;
+}
+
+/* Botão alternativo de WhatsApp dentro do formulário */
+.whatsapp-alt-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .65rem;
+  background: #25D366;
+  color: var(--white);
+  /* [AJUSTE] Padding garante área de toque de 44px */
+  padding: .9rem 1.75rem;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: .95rem;
+  transition: var(--transition);
+  /* [NOVO] Garante área de toque */
+  min-height: var(--min-touch-target);
+}
+.whatsapp-alt-btn:hover { background: #1ebe5b; transform: translateY(-2px); }
+@media (hover: none) {
+  .whatsapp-alt-btn:hover { transform: none; }
+}

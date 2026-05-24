@@ -1,0 +1,298 @@
+/* =============================================================================
+   ANIMATIONS.CSS — Keyframes, animação de reveal no scroll e responsividade
+   RESPONSIVIDADE: Media queries reorganizadas, corrigidos bugs de overflow,
+                   menu mobile aprimorado, breakpoints intermediários adicionados
+   ============================================================================= */
+
+/* ---------- Keyframes ---------- */
+
+/* Entrada suave de baixo para cima */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Zoom suave na imagem da hero */
+@keyframes imgReveal {
+  from { opacity: 0; transform: scale(1.04); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* Pulsação do botão de WhatsApp flutuante */
+@keyframes pulse-wa {
+  0%, 100% { box-shadow: 0 6px 28px rgba(37,211,102,.45); }
+  50%       { box-shadow: 0 8px 36px rgba(37,211,102,.7);  }
+}
+
+/* ---------- Reveal no scroll ---------- */
+
+/* Estado inicial: invisível e deslocado para baixo */
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity .7s ease, transform .7s ease;
+}
+
+/* Estado visível (adicionado pelo JS via IntersectionObserver) */
+.reveal.visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* =============================================================================
+   BREAKPOINT: TABLET LARGO — 1024px
+   Ajustes sutis antes das quebras grandes
+   ============================================================================= */
+@media (max-width: 1024px) {
+  /* [NOVO] Hero: ajusta proporção em telas de tablet landscape */
+  .hero-inner {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  /* [NOVO] About: reduz gap em tablets largos */
+  .about-inner {
+    gap: clamp(2rem, 6vw, 4rem);
+  }
+}
+
+/* =============================================================================
+   BREAKPOINT: TABLET — 900px
+   Hero e About viram coluna única; authority bar empilha
+   ============================================================================= */
+@media (max-width: 900px) {
+
+  /* ── Hero ── */
+  .hero {
+    /* [AJUSTE] Em mobile, min-height menor — evita excesso de espaço branco */
+    min-height: auto;
+    padding-bottom: 0;
+  }
+  .hero-inner {
+    /* [AJUSTE] Coluna única: imagem primeiro (order: -1), copy abaixo */
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+  .hero-image-wrap {
+    /* [AJUSTE] Altura proporcional em mobile: 60vw evita imagem cortada demais */
+    min-height: clamp(320px, 60vw, 520px);
+    order: -1;
+    /* [AJUSTE] Remove border-radius assimétrico em mobile */
+    border-radius: 0;
+  }
+  .hero-copy {
+    /* [AJUSTE] Centraliza copy em mobile para melhor leitura */
+    padding: 2.5rem clamp(1.25rem, 5vw, 2.5rem);
+    align-items: center;
+    text-align: center;
+  }
+  .hero-sub {
+    /* [AJUSTE] Remove max-width restritivo em mobile */
+    max-width: 100%;
+  }
+  .hero-cta-group {
+    /* [AJUSTE] CTA centralizado e botão ocupa largura total */
+    align-items: stretch;
+    width: 100%;
+    max-width: 400px;
+  }
+  .hero-cta-group .btn {
+    justify-content: center;
+    width: 100%;
+  }
+  .hero-eyebrow {
+    justify-content: center;
+  }
+  .placeholder-badge {
+    /* [AJUSTE] Badge mais largo em mobile */
+    max-width: calc(100% - 2rem);
+    margin-bottom: 1.25rem;
+  }
+
+  /* ── About ── */
+  .about-inner {
+    grid-template-columns: 1fr;
+    /* [AJUSTE] Visual abaixo do texto em mobile — leitura mais natural */
+    gap: 3rem;
+  }
+  .about-visual {
+    max-width: 380px;
+    margin: 0 auto;
+    width: 100%;
+    /* [AJUSTE] Padding extra para acomodar o badge que sai pela direita */
+    padding-right: 2rem;
+    padding-bottom: 2rem;
+  }
+  .about-badge {
+    right: 0;
+    bottom: 0;
+  }
+  .about-decor-line { display: none; }
+
+  /* ── Authority Bar ── */
+  .authority-inner {
+    gap: 1.5rem;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .authority-stat + .authority-stat {
+    border-left: none;
+    padding-left: 0;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255,255,255,.1);
+  }
+}
+
+/* =============================================================================
+   BREAKPOINT: MOBILE — 640px
+   Menu hamburger, layout de coluna única, footer empilhado
+   ============================================================================= */
+@media (max-width: 640px) {
+
+  /* ── Navegação mobile ── */
+  .nav-links {
+    display: none;
+  }
+  .nav-links.open {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    /* [AJUSTE] Top dinâmico alinhado com a altura real do header */
+    top: 70px; left: 0; right: 0;
+    background: var(--offwhite);
+    padding: 1.25rem 1.5rem 2rem;
+    gap: 0;
+    box-shadow: 0 8px 32px rgba(0,0,0,.1);
+    border-bottom: 1px solid var(--grey-light);
+    /* [NOVO] Suave fade-in ao abrir */
+    animation: fadeUp .3s ease both;
+    /* [NOVO] Scroll interno se links ultrapassarem a tela */
+    max-height: calc(100vh - 70px);
+    overflow-y: auto;
+  }
+  /* [NOVO] Links do menu mobile com linha separadora e área de toque maior */
+  .nav-links.open a {
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(212,208,200,.4);
+    font-size: 1rem;
+    justify-content: flex-start;
+  }
+  .nav-links.open a:last-child {
+    border-bottom: none;
+  }
+
+  .hamburger { display: flex; }
+  /* [AJUSTE] Oculta botão CTA do header em mobile — fica no conteúdo */
+  .nav .btn  { display: none; }
+
+  /* ── WhatsApp flutuante — visível em mobile ── */
+  .float-wa { display: flex; }
+
+  /* ── Authority: centralizado em mobile ── */
+  .authority-inner        { align-items: center; }
+  .authority-stat         { flex-direction: column; text-align: center; }
+  .authority-stat + .authority-stat {
+    padding-left: 0;
+    border-left: none;
+    border-top: 1px solid rgba(255,255,255,.1);
+    padding-top: 1.5rem;
+  }
+
+  /* ── Grids: coluna única em mobile ── */
+  .solutions-grid {
+    grid-template-columns: 1fr;
+  }
+  /* [AJUSTE] Para quem: 2 colunas em mobile cabe bem */
+  .profiles-grid  {
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  /* [NOVO] Awards: badges empilhadas em mobile */
+  .awards-grid {
+    flex-direction: column;
+    align-items: center;
+  }
+  .award-badge {
+    width: 100%;
+    max-width: 320px;
+    justify-content: center;
+  }
+
+  /* ── Depoimentos: coluna única em mobile ── */
+  .testimonials-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* ── Mid CTA: padding reduzido ── */
+  .mid-cta {
+    padding: 3rem 0;
+  }
+  /* [NOVO] Botão do mid-cta ocupa largura total em mobile */
+  .mid-cta .btn {
+    width: 100%;
+    justify-content: center;
+    max-width: 360px;
+  }
+
+  /* ── Soluções philosophy: sem bordas laterais em mobile ── */
+  .solutions-philosophy {
+    border-left: none;
+    border-right: none;
+    border-top: 3px solid var(--gold);
+    border-bottom: 3px solid var(--gold);
+  }
+
+  /* ── Footer: coluna única centralizado ── */
+  .footer-inner {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1.25rem;
+  }
+
+  /* ── Formulário: padding da seção CTA final ── */
+  .final-cta {
+    padding: 3.5rem 0;
+  }
+
+  /* [NOVO] Formulário: garante que não estoure a tela */
+  .contact-form {
+    width: 100%;
+  }
+
+  /* ── For whom closing: botão full width em mobile ── */
+  .for-whom-closing .btn {
+    width: 100%;
+    max-width: 360px;
+    justify-content: center;
+  }
+}
+
+/* =============================================================================
+   BREAKPOINT: MOBILE PEQUENO — 380px
+   Ajustes para telas muito pequenas (iPhone SE, Galaxy A etc.)
+   ============================================================================= */
+@media (max-width: 380px) {
+  /* [NOVO] Logo: oculta subtítulo da marca para economizar espaço */
+  .logo-brand {
+    display: none;
+  }
+
+  /* [NOVO] Profiles grid: coluna única em telas muito pequenas */
+  .profiles-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* [NOVO] Hero headline: tamanho mínimo seguro */
+  .hero-headline {
+    font-size: 1.75rem;
+  }
+
+  /* [NOVO] About badge reposicionado para não sair da tela */
+  .about-badge {
+    right: -0.5rem;
+    bottom: 0;
+    padding: 1rem;
+  }
+  .about-badge-num { font-size: 1.75rem; }
+}
