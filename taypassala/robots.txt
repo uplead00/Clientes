@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://taypassala.netlify.app/sitemap.xml
