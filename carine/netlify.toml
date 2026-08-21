@@ -1,0 +1,12 @@
+# Site estatico: nao ha build, o proprio repositorio e a pasta publicada.
+[build]
+  publish = "."
+  command = ""
+
+# Forca o dominio canonico. O Netlify emite e renova o certificado HTTPS
+# automaticamente; ainda assim marque "Force HTTPS" no painel do site.
+[[redirects]]
+  from = "https://www.carineoutliers.com.br/*"
+  to = "https://carineoutliers.com.br/:splat"
+  status = 301
+  force = true

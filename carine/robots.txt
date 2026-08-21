@@ -1,0 +1,6 @@
+# Outliers | Carine Hernandes
+User-agent: *
+Allow: /
+
+# Sem area administrativa ou conteudo privado: tudo e indexavel.
+Sitemap: https://carineoutliers.com.br/sitemap.xml

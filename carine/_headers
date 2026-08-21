@@ -1,0 +1,40 @@
+# =============================================================================
+# Cabecalhos do Netlify.
+# CSP estrita: o site nao tem nenhum style="" nem <script> inline, entao nao
+# precisa de 'unsafe-inline' em lugar nenhum. Os icones sao SVG inline, entao a
+# unica origem externa que sobrou e o Google Fonts (CSS + woff2).
+# =============================================================================
+
+/*
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; form-action 'self'; frame-ancestors 'none'; base-uri 'self'; object-src 'none'; upgrade-insecure-requests
+  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(), microphone=(), camera=(), payment=(), usb=(), magnetometer=(), accelerometer=()
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Resource-Policy: same-origin
+
+# HTML sempre revalidado: um deploy novo aparece na hora.
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+/
+  Cache-Control: public, max-age=0, must-revalidate
+
+# Assets com hash de conteudo nao mudam de nome; cache curto por seguranca,
+# porque os nomes de arquivo aqui sao estaveis (styles.css, logo.png...).
+/css/*
+  Cache-Control: public, max-age=3600, must-revalidate
+
+/js/*
+  Cache-Control: public, max-age=3600, must-revalidate
+
+/assets/*
+  Cache-Control: public, max-age=2592000
+
+/favicon.ico
+  Cache-Control: public, max-age=604800
+
+/apple-touch-icon.png
+  Cache-Control: public, max-age=604800

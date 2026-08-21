@@ -1,0 +1,204 @@
+/* =============================================================================
+   LAYOUT.CSS: Container, utilitários globais, header, footer e botão flutuante
+   ============================================================================= */
+
+/* ---------- Utilitários globais ---------- */
+.container  { max-width: 1200px; margin: 0 auto; padding: 0 clamp(1.25rem, 5vw, 3rem); }
+.section    { padding: clamp(4rem, 8vw, 7rem) 0; }
+.text-center { text-align: center; }
+
+/* ---------- Divisor ornamental ---------- */
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--grey-light);
+}
+.divider-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); }
+
+/* ---------- Header ---------- */
+/*
+  No topo o header é transparente e vive sobre a foto escura da hero.
+  Ao rolar (classe .scrolled via JS) ele assume a barra clara do resto do site.
+*/
+.header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  background: transparent;
+  border-bottom: 1px solid transparent;
+  transition: background var(--transition), border-color var(--transition), box-shadow var(--transition);
+}
+.header.scrolled {
+  background: rgba(249,247,242,.92);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom-color: rgba(201,168,76,.18);
+  box-shadow: 0 2px 28px rgba(0,0,0,.08);
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 0;
+}
+
+/*
+  A faixa do header não segue o container centralizado de 1200px do resto do
+  site: ela é ancorada à esquerda e limitada a ~66% da largura da tela.
+  Assim a logo sobe para o gutter esquerdo e a nav + CTA terminam antes do
+  rosto da Carine na hero: o retrato começa por volta de 64% da viewport
+  (a foto tem 86% de largura, encostada à direita).
+  Abaixo de 901px o menu já vira hambúrguer, então a faixa volta ao padrão.
+*/
+@media (min-width: 901px) {
+  .header > .container {
+    max-width: min(1200px, max(66vw, 46rem));
+    margin-inline: 0 auto;
+    padding-left: clamp(1.25rem, 4vw, 4.5rem);
+    padding-right: clamp(1.25rem, 2vw, 2rem);
+  }
+}
+
+/* Logo */
+.logo           { display: flex; align-items: center; gap: .75rem; flex: 0 0 auto; }
+.logo-img       { width: 44px; height: 44px; object-fit: contain; }
+.logo-img-footer { width: 38px; height: 38px; object-fit: contain; }
+.logo-text      { display: flex; flex-direction: column; line-height: 1.1; }
+.logo-name      { font-family: var(--font-serif); font-size: 1rem; font-weight: 600; letter-spacing: .02em; color: var(--white); transition: color var(--transition); }
+.logo-brand     { font-size: .65rem; letter-spacing: .22em; text-transform: uppercase; color: var(--gold); }
+.header.scrolled .logo-name { color: var(--black); }
+.logo-name-footer { color: var(--white); }
+
+/* Nav */
+.nav        { display: flex; align-items: center; gap: 2rem; flex: 0 0 auto; }
+.nav-links  { display: flex; gap: 2rem; align-items: center; }
+.nav-links a {
+  font-size: .875rem;
+  font-weight: 500;
+  letter-spacing: .03em;
+  color: rgba(255,255,255,.85);
+  transition: color var(--transition);
+  position: relative;
+  white-space: nowrap;
+}
+
+/* CTA do header: versão compacta do .btn, para a faixa caber no espaço à
+   esquerda do retrato. O rótulo curto entra em telas médias. */
+.nav .nav-cta   { padding: .7rem 1.5rem; font-size: .85rem; white-space: nowrap; }
+.nav-cta-short  { display: none; }
+.header.scrolled .nav-links a { color: var(--black); }
+/* Sublinhado animado nos links */
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px; left: 0; right: 0;
+  height: 1.5px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transition: transform var(--transition);
+}
+.nav-links a:hover                        { color: var(--gold-light); }
+.header.scrolled .nav-links a:hover       { color: var(--gold-dark); }
+.nav-links a:hover::after                 { transform: scaleX(1); }
+
+/* Botão hambúrguer (mobile) */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  padding: 4px;
+}
+.hamburger span {
+  display: block;
+  width: 22px; height: 2px;
+  background: var(--white);
+  border-radius: 2px;
+  transition: var(--transition);
+}
+.header.scrolled .hamburger span { background: var(--black); }
+
+/* ---------- Footer ---------- */
+.footer {
+  background: var(--black);
+  border-top: 1px solid rgba(201,168,76,.15);
+  padding: 2.5rem 0;
+}
+.footer-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+.footer-social { display: flex; align-items: center; gap: 1rem; }
+.social-link {
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  border: 1px solid rgba(201,168,76,.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255,255,255,.6);
+  font-size: 1.1rem;
+  transition: var(--transition);
+}
+.social-link:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+  background: rgba(201,168,76,.1);
+}
+.footer-copy    { font-size: .78rem; color: rgba(255,255,255,.35); }
+.footer-privacy { font-size: .78rem; color: rgba(255,255,255,.35); transition: color var(--transition); }
+.footer-privacy:hover { color: var(--gold); }
+
+/* Política de privacidade + crédito da UP LEAD lado a lado */
+.footer-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: .55rem;
+}
+.footer-dot     { font-size: .78rem; color: rgba(255,255,255,.2); }
+.footer-credit  { font-size: .78rem; color: rgba(255,255,255,.35); transition: color var(--transition); }
+.footer-credit strong {
+  font-weight: 600;
+  letter-spacing: .04em;
+  color: rgba(255,255,255,.55);
+  transition: color var(--transition);
+}
+.footer-credit:hover,
+.footer-credit:hover strong { color: var(--gold); }
+
+/* ---------- WhatsApp flutuante ---------- */
+.float-wa {
+  position: fixed;
+  bottom: 1.75rem;
+  right: 1.75rem;
+  z-index: 999;
+  display: none; /* exibido via media query no mobile */
+  align-items: center;
+  justify-content: center;
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  background: #25D366;
+  color: var(--white);
+  font-size: 1.6rem;
+  box-shadow: 0 6px 28px rgba(37,211,102,.45);
+  transition: var(--transition);
+  animation: pulse-wa 2.5s ease-in-out infinite;
+}
+.float-wa:hover {
+  background: #1ebe5b;
+  transform: scale(1.1);
+  box-shadow: 0 10px 40px rgba(37,211,102,.55);
+}

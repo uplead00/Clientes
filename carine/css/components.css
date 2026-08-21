@@ -1,0 +1,355 @@
+/* =============================================================================
+   COMPONENTS.CSS: Componentes reutilizáveis: botões, títulos de seção,
+                    cards de solução, depoimentos, FAQ e formulário
+   ============================================================================= */
+
+/* ---------- Botões ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .55rem;
+  padding: .85rem 2rem;
+  border-radius: 50px;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: .95rem;
+  letter-spacing: .04em;
+  text-align: center;
+  transition: var(--transition);
+}
+
+.btn-gold {
+  background: var(--gold);
+  color: var(--black);
+  box-shadow: var(--shadow-gold);
+}
+.btn-gold:hover {
+  background: var(--gold-light);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 48px rgba(201,168,76,.35);
+}
+
+.btn-outline {
+  border: 1.5px solid var(--gold);
+  color: var(--gold);
+  background: transparent;
+}
+.btn-outline:hover {
+  background: var(--gold);
+  color: var(--black);
+}
+
+.btn-white { background: var(--white); color: var(--black); }
+/* Botão de largura total (usado no submit do formulário) */
+.btn-block { width: 100%; justify-content: center; }
+.btn-white:hover { background: var(--offwhite); transform: translateY(-2px); }
+
+/* ---------- Ícones (SVG inline) ----------
+   Antes vinham de uma fonte de ícones hospedada em unpkg + jsdelivr: 279 KB de
+   woff2 e 6 folhas de estilo para 17 ícones. Agora são SVG no próprio HTML.
+   1em faz o ícone seguir o font-size de quem o contém, exatamente como a fonte
+   fazia, e currentColor mantém a cor herdada. */
+.icon {
+  width: 1em;
+  height: 1em;
+  flex-shrink: 0;
+  vertical-align: -.125em;
+}
+
+/* ---------- Rótulo e título de seção ---------- */
+
+/*
+  Cabeçalho de seção: alinhado à esquerda e com medida de leitura limitada.
+  Antes todas as seções abriam centralizadas, o que achatava a hierarquia;
+  agora só as duas faixas de CTA ficam centralizadas.
+
+  A medida vai nos filhos, não no bloco: em duas seções o .section-head é o
+  próprio .container, e limitar a largura dele estreitaria a seção inteira.
+*/
+.section-head       { margin-bottom: 3rem; }
+.section-head > *   { max-width: 46rem; }
+.section-label {
+  display: inline-block;
+  font-size: .75rem;
+  font-weight: 600;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1rem;
+}
+.section-title {
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.2;
+  color: var(--black);
+  margin-bottom: 1.25rem;
+}
+.section-title.light { color: var(--white); }
+.section-sub {
+  font-size: 1.05rem;
+  color: var(--grey);
+  max-width: 600px;
+  line-height: 1.8;
+}
+
+/* ---------- Cards de Solução ---------- */
+.solution-card {
+  background: var(--offwhite);
+  border-radius: var(--radius-lg);
+  padding: 2rem 1.75rem;
+  border: 1px solid rgba(13,13,13,.08);
+  transition: var(--transition);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  position: relative;
+  overflow: hidden;
+}
+/* Barra dourada animada na base do card */
+.solution-card::before {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transition: transform var(--transition);
+}
+.solution-card:hover {
+  border-color: rgba(201,168,76,.45);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow);
+}
+.solution-card:hover::before { transform: scaleX(1); }
+
+.solution-icon {
+  width: 44px; height: 44px;
+  border: 1px solid rgba(201,168,76,.45);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gold);
+  font-size: 1.4rem;
+}
+.solution-title {
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  color: var(--black);
+  font-weight: 600;
+}
+.solution-desc { font-size: .875rem; color: var(--grey); line-height: 1.7; flex: 1; }
+.solution-cta {
+  font-size: .82rem;
+  font-weight: 600;
+  color: var(--gold);
+  letter-spacing: .05em;
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  transition: gap var(--transition);
+}
+.solution-cta:hover { gap: .7rem; }
+
+/* ---------- Depoimentos ---------- */
+.testimonial-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  border: 1px solid rgba(13,13,13,.10);
+  position: relative;
+  transition: var(--transition);
+}
+/* Sombra só no hover: em repouso a borda de 1px já separa o card do fundo */
+.testimonial-card:hover { transform: translateY(-3px); border-color: rgba(201,168,76,.4); box-shadow: var(--shadow); }
+
+/* Aspas decorativas */
+.testimonial-card::before {
+  content: '\201C';
+  position: absolute;
+  top: 1.2rem; right: 1.75rem;
+  font-family: var(--font-serif);
+  font-size: 5rem;
+  color: rgba(201,168,76,.12);
+  line-height: 1;
+}
+.testimonial-text   { font-size: .95rem; color: var(--grey); line-height: 1.8; margin-bottom: 1.5rem; font-style: italic; }
+.testimonial-author { display: flex; align-items: center; gap: .85rem; }
+.testimonial-avatar {
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  background: var(--emerald-dk);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gold);
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  font-style: italic;
+  flex-shrink: 0;
+  overflow: hidden;
+  /* aro dourado discreto em volta da foto */
+  box-shadow: 0 0 0 1.5px rgba(201,168,76,.35);
+}
+.testimonial-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+.testimonial-name { font-weight: 600; font-size: .9rem; color: var(--black); }
+.testimonial-role { font-size: .78rem; color: var(--grey); }
+
+/* ---------- Badges de prêmio ---------- */
+.award-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: .6rem;
+  background: var(--black);
+  color: var(--gold);
+  padding: .6rem 1.25rem;
+  border-radius: 50px;
+  font-size: .8rem;
+  font-weight: 600;
+  letter-spacing: .06em;
+  border: 1px solid rgba(201,168,76,.25);
+  transition: var(--transition);
+}
+.award-badge:hover { border-color: var(--gold); box-shadow: var(--shadow-gold); }
+
+/* ---------- Cards de perfil (Para quem) ---------- */
+.profile-card {
+  border: 1px solid var(--grey-light);
+  border-radius: var(--radius-lg);
+  padding: 2rem 1.75rem;
+  text-align: left;
+  transition: var(--transition);
+  cursor: default;
+}
+.profile-card:hover {
+  border-color: var(--gold);
+  background: rgba(201,168,76,.04);
+  transform: translateY(-3px);
+}
+/* Mesmo ícone quadrado e vazado dos cards de solução, alinhado à esquerda */
+.profile-icon {
+  width: 44px; height: 44px;
+  border: 1px solid rgba(201,168,76,.45);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 0 1.25rem;
+  color: var(--gold);
+  font-size: 1.35rem;
+}
+.profile-title { font-family: var(--font-serif); font-size: 1.05rem; color: var(--black); margin-bottom: .5rem; }
+.profile-desc  { font-size: .85rem; color: var(--grey); line-height: 1.7; }
+
+/* ---------- FAQ ---------- */
+.faq-list { max-width: 780px; }
+.faq-item { border-bottom: 1px solid var(--grey-light); overflow: hidden; }
+
+.faq-question {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 0;
+  text-align: left;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--black);
+  gap: 1rem;
+  transition: color var(--transition);
+}
+.faq-question:hover { color: var(--gold-dark); }
+
+.faq-icon {
+  flex-shrink: 0;
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  border: 1.5px solid var(--grey-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--grey);
+  transition: var(--transition);
+}
+/* Ícone vira X quando aberto */
+.faq-item.open .faq-icon {
+  border-color: var(--gold);
+  color: var(--gold);
+  background: rgba(201,168,76,.08);
+  transform: rotate(45deg);
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .45s cubic-bezier(.4,0,.2,1), padding .3s;
+}
+.faq-item.open .faq-answer { max-height: 400px; padding-bottom: 1.5rem; }
+.faq-answer p { font-size: .95rem; color: var(--grey); line-height: 1.85; }
+
+/* ---------- Formulário de contato ---------- */
+.contact-form {
+  max-width: 480px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  position: relative;
+}
+.form-group { display: flex; flex-direction: column; gap: .4rem; text-align: left; }
+.form-group label {
+  font-size: .78rem;
+  color: rgba(255,255,255,.5);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.form-group input,
+.form-group select,
+.form-group textarea {
+  background: rgba(255,255,255,.07);
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 8px;
+  padding: .85rem 1rem;
+  color: var(--white);
+  font-family: var(--font-sans);
+  font-size: .95rem;
+  transition: border-color var(--transition);
+  width: 100%;
+}
+.form-group input::placeholder,
+.form-group textarea::placeholder { color: rgba(255,255,255,.3); }
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--gold);
+  background: rgba(255,255,255,.1);
+}
+.form-group select { appearance: none; cursor: pointer; }
+.form-group select option { background: var(--black); color: var(--white); }
+.form-group textarea { resize: none; height: 100px; }
+
+/* Respiro antes do botão de envio */
+.form-submit { margin-top: 1rem; }
+
+.form-or {
+  color: rgba(255,255,255,.4);
+  font-size: .85rem;
+  margin: .5rem 0;
+}
+
+/* Botão alternativo de WhatsApp dentro do formulário */
+.whatsapp-alt-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .65rem;
+  background: #25D366;
+  color: var(--white);
+  padding: .9rem 1.75rem;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: .95rem;
+  transition: var(--transition);
+}
+.whatsapp-alt-btn:hover { background: #1ebe5b; transform: translateY(-2px); }

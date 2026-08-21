@@ -1,0 +1,66 @@
+/* =============================================================================
+   BASE.CSS: Reset, variáveis CSS (design tokens) e tipografia global
+   ============================================================================= */
+
+/* As fontes do Google são carregadas por <link> no <head> do index.html:
+   por @import aqui o download só começaria depois deste CSS ser baixado. */
+
+/* ---------- Design Tokens ---------- */
+:root {
+  /* Cores */
+  --gold:       #C9A84C;
+  --gold-light: #E2C97E;
+  --gold-dark:  #A07A2E;
+  --offwhite:   #F9F7F2;
+  --black:      #0D0D0D;
+  --emerald:    #1A4A3A;
+  --emerald-dk: #0F2D23;
+  --grey:       #6B6B6B;
+  --grey-light: #D4D0C8;
+  --white:      #FFFFFF;
+
+  /* Tipografia */
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-sans:  'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  /* Bordas e sombras
+     Raios contidos e sombras rasas: a hierarquia vem da tipografia e das
+     bordas de 1px, não de cantos muito arredondados e sombras difusas. */
+  --radius:      6px;
+  --radius-lg:   10px;
+  --shadow:      0 6px 20px rgba(13,13,13,.07);
+  --shadow-gold: 0 4px 14px rgba(201,168,76,.14);
+
+  /* Transição padrão */
+  --transition: .35s cubic-bezier(.4,0,.2,1);
+}
+
+/* ---------- Reset ---------- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  /* o header é fixo: sem isso a âncora para com o rótulo da seção escondido */
+  scroll-padding-top: 92px;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--offwhite);
+  color: var(--black);
+  line-height: 1.7;
+  overflow-x: hidden;
+  /* palavras longas (URLs, nomes compostos) não estouram a coluna a 375px */
+  overflow-wrap: break-word;
+}
+
+img    { max-width: 100%; display: block; }
+a      { color: inherit; text-decoration: none; }
+ul     { list-style: none; }
+button { cursor: pointer; border: none; background: none; font-family: inherit; }
+
+/* ---------- Helpers de tipografia ---------- */
+.serif   { font-family: var(--font-serif); }
+.gold    { color: var(--gold); }
+.em-text { font-style: italic; }
